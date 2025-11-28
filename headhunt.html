@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PRTS - 寻访</title>
+    <style>
+        /* 基础样式 */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: #f5f5f5;
+            color: #333;
+            line-height: 1.6;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        /* 导航栏样式 */
+        header {
+            background-color: #fff;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 0;
+        }
+        
+        .logo {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #4a6cf7;
+        }
+        
+        .nav-links {
+            display: flex;
+            list-style: none;
+        }
+        
+        .nav-links li {
+            margin-left: 30px;
+        }
+        
+        .nav-links a {
+            text-decoration: none;
+            color: #333;
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+        
+        .nav-links a:hover, .nav-links a.active {
+            color: #4a6cf7;
+        }
+        
+        .menu-toggle {
+            display: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+        
+        /* 页面内容样式 */
+        .page {
+            padding: 80px 0;
+            min-height: calc(100vh - 80px);
+        }
+        
+        .page-header {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+        
+        .page-header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            color: #333;
+        }
+        
+        .page-header p {
+            color: #666;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        
+        /* 博客页面样式 */
+        .blog-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 30px;
+        }
+        
+        .blog-item {
+            background-color: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+        }
+        
+        .blog-image {
+            height: 200px;
+            overflow: hidden;
+        }
+        
+        .blog-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        .blog-info {
+            padding: 20px;
+        }
+        
+        .blog-meta {
+            display: flex;
+            margin-bottom: 10px;
+            font-size: 0.8rem;
+            color: #888;
+        }
+        
+        .blog-meta span {
+            margin-right: 15px;
+        }
+        
+        .blog-info h3 {
+            margin-bottom: 10px;
+        }
+        
+        .blog-info p {
+            color: #666;
+            margin-bottom: 15px;
+        }
+        
+        .read-more {
+            color: #4a6cf7;
+            text-decoration: none;
+            font-weight: 500;
+            display: inline-flex;
+            align-items: center;
+            transition: all 0.3s;
+        }
+        
+        .read-more:hover {
+            color: #3a5ce5;
+            transform: translateX(5px);
+        }
+        
+        .read-more::after {
+            content: "→";
+            margin-left: 5px;
+            transition: transform 0.3s;
+        }
+        
+        .read-more:hover::after {
+            transform: translateX(3px);
+        }
+        
+        /* 页脚样式 */
+        footer {
+            background-color: #333;
+            color: white;
+            padding: 40px 0;
+            text-align: center;
+        }
+        
+        .social-links {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 20px;
+        }
+        
+        .social-links a {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            background-color: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            margin: 0 10px;
+            color: white;
+            text-decoration: none;
+            transition: background-color 0.3s;
+        }
+        
+        .social-links a:hover {
+            background-color: #4a6cf7;
+        }
+        
+        .copyright {
+            color: #aaa;
+            font-size: 0.9rem;
+        }
+        
+        /* 响应式设计 */
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+                position: absolute;
+                top: 70px;
+                left: 0;
+                width: 100%;
+                background-color: white;
+                flex-direction: column;
+                padding: 20px;
+                box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
+            }
+            
+            .nav-links.active {
+                display: flex;
+            }
+            
+            .nav-links li {
+                margin: 10px 0;
+            }
+            
+            .menu-toggle {
+                display: block;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- 导航栏 -->
+    <header>
+        <div class="container">
+            <nav>
+                <div class="logo">PRTS</div>
+                <ul class="nav-links">
+                    <li><a href="index.html" class="nav-link">终端</a></li>
+                    <li><a href="infrastructure.html" class="nav-link">基建</a></li>
+                    <li><a href="operators.html" class="nav-link">干员</a></li>
+                    <li><a href="headhunt.html" class="nav-link active">寻访</a></li>
+                    <li><a href="defensesys.html" class="nav-link">全舰防御系统</a></li>
+                </ul>
+                <div class="menu-toggle">☰</div>
+            </nav>
+        </div>
+    </header>
+
+    <!-- 寻访页面内容 -->
+    <section class="page">
+        <div class="container">
+            <div class="page-header">
+                <h1>寻访</h1>
+                <p>当期将于2月30日 03:59结束</p>
+            </div>
+            <div class="blog-grid">
+                <div class="blog-item">
+                    <div class="blog-image">
+                        <img src="resources\headhunt1.jpg" alt="公开招募">
+                    </div>
+                    <div class="blog-info">
+                        <h3>公开招募</h3>
+                        <p>高资加回费,这是一场豪赌</p>
+                        <a href="https://prts.wiki/w/%E5%85%AC%E6%8B%9B%E8%AE%A1%E7%AE%97" class="read-more">来当非酋</a>
+                    </div>
+                </div>
+                <div class="blog-item">
+                    <div class="blog-image">
+                        <img src="resources\headhunt2.jpg" alt="限定寻访">
+                    </div>
+                    <div class="blog-info">
+                        <h3>限定寻访</h3>
+                        <p>神秘常量之299</p>
+                        <a href="https://prts.wiki/w/%E5%AF%BB%E8%AE%BF%E6%A8%A1%E6%8B%9F/%E4%BD%95%E4%BB%A5%E4%B8%BA%E6%88%91" class="read-more">All is what I came for!</a>
+                    </div>
+                </div>
+                <div class="blog-item">
+                    <div class="blog-image">
+                        <img src="resources\headhunt3.jpg" alt="中坚寻访">
+                    </div>
+                    <div class="blog-info">
+                        <h3>中坚寻访</h3>
+                        <p>中坚(bei)干员</p>
+                        <a href="https://prts.wiki/w/%E5%AF%BB%E8%AE%BF%E6%A8%A1%E6%8B%9F/%E4%B8%AD%E5%9D%9A%E5%B9%B2%E5%91%98%E8%BD%AE%E6%8D%A2%E5%8D%A1%E6%B1%A054" class="read-more">血狼摇头</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 页脚 -->
+    <footer>
+        <div class="container">
+            <div class="social-links">
+                <a href="#">微</a>
+                <a href="#">Q</a>
+                <a href="#">知</a>
+                <a href="#">G</a>
+            </div>
+            <p class="copyright">© 2023 PRTS. 保留所有权利.</p>
+        </div>
+    </footer>
+
+    <script>
+        // 移动端菜单切换
+        document.addEventListener('DOMContentLoaded', function() {
+            const menuToggle = document.querySelector('.menu-toggle');
+            const navLinksContainer = document.querySelector('.nav-links');
+            
+            menuToggle.addEventListener('click', function() {
+                navLinksContainer.classList.toggle('active');
+            });
+        });
+    </script>
+</body>
+</html>

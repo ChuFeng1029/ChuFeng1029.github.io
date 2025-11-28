@@ -1,0 +1,501 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PRTS - 全舰防御系统</title>
+    <style>
+        /* 基础样式 */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: #f5f5f5;
+            color: #333;
+            line-height: 1.6;
+            transition: background-color 3s ease;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        /* 导航栏样式 */
+        header {
+            background-color: #fff;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            transition: background-color 3s ease;
+        }
+        
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 0;
+        }
+        
+        .logo {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #4a6cf7;
+        }
+        
+        .nav-links {
+            display: flex;
+            list-style: none;
+        }
+        
+        .nav-links li {
+            margin-left: 30px;
+        }
+        
+        .nav-links a {
+            text-decoration: none;
+            color: #333;
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+        
+        .nav-links a:hover, .nav-links a.active {
+            color: #4a6cf7;
+        }
+        
+        .menu-toggle {
+            display: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+        
+        /* 页面内容样式 */
+        .page {
+            padding: 80px 0;
+            min-height: calc(100vh - 80px);
+            transition: background-color 3s ease;
+        }
+        
+        .page-header {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+        
+        .page-header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            color: #333;
+        }
+        
+        .page-header p {
+            color: #666;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        
+        /* 联系页面样式 */
+        .contact-content {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 40px;
+        }
+        
+        .contact-info {
+            flex: 1;
+            min-width: 300px;
+        }
+        
+        .contact-form {
+            flex: 1;
+            min-width: 300px;
+        }
+        
+        .contact-item {
+            display: flex;
+            align-items: flex-start;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+        }
+        
+        .contact-icon {
+            width: 50px;
+            height: 50px;
+            background-color: #4a6cf7;
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 15px;
+            flex-shrink: 0;
+        }
+        
+        .contact-details {
+            flex: 1;
+            min-width: 200px;
+        }
+        
+        .contact-details h3 {
+            margin-bottom: 5px;
+        }
+        
+        .contact-details p {
+            margin-bottom: 10px;
+        }
+        
+        .contact-progress {
+            width: 100%;
+            margin-top: 10px;
+        }
+        
+        .contact-progress .skill-name {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 5px;
+        }
+        
+        .contact-progress .skill-bar {
+            height: 8px;
+            background-color: #e0e0e0;
+            border-radius: 4px;
+            overflow: hidden;
+        }
+        
+        .contact-progress .skill-level {
+            height: 100%;
+            background-color: #4a6cf7;
+            width: 100%; /* 初始宽度 */
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: 500;
+        }
+        
+        .form-control {
+            width: 100%;
+            padding: 12px 15px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 1rem;
+        }
+        
+        .error-message {
+            color: #e74c3c;
+            font-size: 0.9rem;
+            margin-top: 5px;
+            display: none;
+        }
+        
+        .btn {
+            display: inline-block;
+            background-color: #4a6cf7;
+            color: white;
+            padding: 12px 30px;
+            border-radius: 5px;
+            text-decoration: none;
+            font-weight: 500;
+            transition: background-color 0.3s;
+            border: none;
+            cursor: pointer;
+        }
+        
+        .btn:hover {
+            background-color: #3a5ce5;
+        }
+        
+        /* 页脚样式 */
+        footer {
+            background-color: #333;
+            color: white;
+            padding: 40px 0;
+            text-align: center;
+            transition: background-color 3s ease;
+        }
+        
+        .social-links {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 20px;
+        }
+        
+        .social-links a {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            background-color: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            margin: 0 10px;
+            color: white;
+            text-decoration: none;
+            transition: background-color 0.3s;
+        }
+        
+        .social-links a:hover {
+            background-color: #4a6cf7;
+        }
+        
+        .copyright {
+            color: #aaa;
+            font-size: 0.9rem;
+        }
+        
+        /* 响应式设计 */
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+                position: absolute;
+                top: 70px;
+                left: 0;
+                width: 100%;
+                background-color: white;
+                flex-direction: column;
+                padding: 20px;
+                box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
+            }
+            
+            .nav-links.active {
+                display: flex;
+            }
+            
+            .nav-links li {
+                margin: 10px 0;
+            }
+            
+            .menu-toggle {
+                display: block;
+            }
+            
+            .contact-info {
+                padding-right: 0;
+                margin-bottom: 40px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- 导航栏 -->
+    <header>
+        <div class="container">
+            <nav>
+                <div class="logo">PRTS</div>
+                <ul class="nav-links">
+                    <li><a href="index.html" class="nav-link">终端</a></li>
+                    <li><a href="infrastructure.html" class="nav-link">基建</a></li>
+                    <li><a href="operators.html" class="nav-link">干员</a></li>
+                    <li><a href="headhunt.html" class="nav-link">寻访</a></li>
+                    <li><a href="defensesys.html" class="nav-link active">全舰防御系统</a></li>
+                </ul>
+                <div class="menu-toggle">☰</div>
+            </nav>
+        </div>
+    </header>
+
+    <!-- 全舰防御系统页面内容 -->
+    <section class="page">
+        <div class="container">
+            <div class="page-header">
+                <h1>全舰防御系统</h1>
+                <p id="neural-connection">Neural Connection:Stable</p>
+                <p>Relocating to:Abyss</p>
+                <p>To Terminate Defense System, Secondary Level Admin Permission Is Required</p>
+            </div>
+            <div class="contact-content">
+                <div class="contact-info">
+                    <div class="contact-item">
+                        <div class="contact-icon">🛡️</div>
+                        <div class="contact-details">
+                            <h3>Defense System Stability</h3>
+                            <p id="defense-status">Now Stable</p>
+                            <div class="contact-progress">
+                                <div class="skill-name">
+                                    <span>Stability</span>
+                                    <span id="defense-percentage">100%</span>
+                                </div>
+                                <div class="skill-bar">
+                                    <div class="skill-level" id="defense-bar" style="width: 100%"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="contact-item">
+                        <div class="contact-icon">🔐</div>
+                        <div class="contact-details">
+                            <h3>Core System Stability</h3>
+                            <p id="core-status">Now Stable</p>
+                            <div class="contact-progress">
+                                <div class="skill-name">
+                                    <span>Stability</span>
+                                    <span id="core-percentage">100%</span>
+                                </div>
+                                <div class="skill-bar">
+                                    <div class="skill-level" id="core-bar" style="width: 100%"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="contact-item">
+                        <div class="contact-icon">📢</div>
+                        <div class="contact-details">
+                            <h3>Broadcast System Stability</h3>
+                            <p id="broadcast-status">Now Stable</p>
+                            <div class="contact-progress">
+                                <div class="skill-name">
+                                    <span>Stability</span>
+                                    <span id="broadcast-percentage">100%</span>
+                                </div>
+                                <div class="skill-bar">
+                                    <div class="skill-level" id="broadcast-bar" style="width: 100%"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="contact-form">
+                    <form id="login-form">
+                        <div class="form-group">
+                            <label for="account-name">Account Name</label>
+                            <input type="text" id="account-name" class="form-control" required>
+                            <div class="error-message" id="account-error">Invalid account name</div>
+                        </div>
+                        <div class="form-group">
+                            <label for="password">Password</label>
+                            <input type="password" id="password" class="form-control" required>
+                            <div class="error-message" id="password-error">Invalid password</div>
+                        </div>
+                        <button type="submit" class="btn">Terminate</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 页脚 -->
+    <footer>
+        <div class="container">
+            <div class="social-links">
+                <a href="#">微</a>
+                <a href="#">Q</a>
+                <a href="#">知</a>
+                <a href="#">G</a>
+            </div>
+            <p class="copyright">© 2023 PRTS. 保留所有权利.</p>
+        </div>
+    </footer>
+
+    <script>
+        // 移动端菜单切换
+        document.addEventListener('DOMContentLoaded', function() {
+            const menuToggle = document.querySelector('.menu-toggle');
+            const navLinksContainer = document.querySelector('.nav-links');
+            
+            menuToggle.addEventListener('click', function() {
+                navLinksContainer.classList.toggle('active');
+            });
+            
+            // 登录表单验证
+            document.getElementById('login-form').addEventListener('submit', function(e) {
+                e.preventDefault();
+                
+                const accountName = document.getElementById('account-name').value;
+                const password = document.getElementById('password').value;
+                const accountError = document.getElementById('account-error');
+                const passwordError = document.getElementById('password-error');
+                
+                // 隐藏之前的错误消息
+                accountError.style.display = 'none';
+                passwordError.style.display = 'none';
+                
+                let isValid = true;
+                
+                // 验证账户名
+                if (accountName !== 'VFTS352') {
+                    accountError.style.display = 'block';
+                    isValid = false;
+                }
+                
+                // 验证密码
+                if (password !== '48399110') {
+                    passwordError.style.display = 'block';
+                    isValid = false;
+                }
+                
+                // 如果验证通过，执行动画效果并打开新标签页
+                if (isValid) {
+                    // 禁用提交按钮防止重复提交
+                    const submitBtn = document.querySelector('#login-form .btn');
+                    submitBtn.disabled = true;
+                    submitBtn.textContent = 'Processing...';
+                    
+                    // 获取进度条元素
+                    const defenseBar = document.getElementById('defense-bar');
+                    const coreBar = document.getElementById('core-bar');
+                    const broadcastBar = document.getElementById('broadcast-bar');
+                    
+                    // 获取状态文本元素
+                    const defenseStatus = document.getElementById('defense-status');
+                    const coreStatus = document.getElementById('core-status');
+                    const broadcastStatus = document.getElementById('broadcast-status');
+                    
+                    // 获取百分比文本元素
+                    const defensePercentage = document.getElementById('defense-percentage');
+                    const corePercentage = document.getElementById('core-percentage');
+                    const broadcastPercentage = document.getElementById('broadcast-percentage');
+                    
+                    // 获取副标题元素
+                    const neuralConnection = document.getElementById('neural-connection');
+                    
+                    // 更新状态文本
+                    defenseStatus.textContent = 'Fatal Failure Detected';
+                    coreStatus.textContent = 'Fatal Failure Detected';
+                    broadcastStatus.textContent = 'Fatal Failure Detected';
+                    
+                    // 更新副标题
+                    neuralConnection.textContent = 'Neural Connection:Fatal Failure';
+                    
+                    // 改变整个页面背景颜色为红色
+                    document.body.style.backgroundColor = '#ffcccc';
+                    document.querySelector('header').style.backgroundColor = '#ffaaaa';
+                    document.querySelector('footer').style.backgroundColor = '#cc4444';
+                    document.querySelector('.page').style.backgroundColor = '#ffcccc';
+                    
+                    // 进度条逐一减少至0
+                    let count = 100;
+                    const interval = setInterval(() => {
+                        count--;
+                        
+                        // 更新进度条宽度
+                        defenseBar.style.width = `${count}%`;
+                        coreBar.style.width = `${count}%`;
+                        broadcastBar.style.width = `${count}%`;
+                        
+                        // 更新百分比文本
+                        defensePercentage.textContent = `${count}%`;
+                        corePercentage.textContent = `${count}%`;
+                        broadcastPercentage.textContent = `${count}%`;
+                        
+                        if (count === 0) {
+                            clearInterval(interval);
+                            // 在新标签页打开网页
+                            window.open('https://ak.hypergryph.com/lynchpin', '_blank');
+                        }
+                    }, 30); // 3秒内从100减少到0，每次减少1，间隔30毫秒
+                }
+            });
+        });
+    </script>
+</body>
+</html>
